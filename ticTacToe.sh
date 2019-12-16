@@ -15,9 +15,9 @@ getInitializedBoard
 function getSymbol(){
 	if [[ $((RANDOM%2)) -eq 0 ]]
 	then
-		echo "player 1  Symbol is = X"
+		echo "Player 1  Symbol is = X"
 	else
-		echo "player 1 Symbol is = O"
+  		echo "Player 2  Symbol is = X "
 	fi
 }
 getSymbol
