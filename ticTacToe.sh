@@ -4,9 +4,12 @@ echo "!!! WELCOME  TO  TIC-TAC-TOE GAME ... !!!"
 
 count=0
 player=" "
+symbol1="O"
+symbol2="O"
 
 declare -a board
 board=( 1 2 3 4 5 6 7 8 9 )
+
 function getSymbol(){
 	if [[ $((RANDOM%2)) -eq 0 ]]
 	then
@@ -15,7 +18,7 @@ function getSymbol(){
 		player="user"
 	else
 		echo "Computer Will Play First"
-		echo "Computer Symbol is = O"
+		echo "Computer Symbol is = X"
 		player="computer"
 	fi
 }
@@ -26,23 +29,38 @@ function getBoardPrint(){
 	echo " |_${board[0]}__""|""_${board[1]}__""|""_${board[2]}__""|"
 	echo " |_${board[3]}__""|""_${board[4]}__""|""_${board[5]}__""|"
 	echo " |_${board[6]}__""|""_${board[7]}__""|""_${board[8]}__""|"
-
 	
 }
 getBoardPrint
 
 function getUserInput(){
-
-read -p "Enter Cell Number  " cellNum 
+	echo "User"
+	read -p "Enter Cell Number  " cellNum 
 	for (( i=0;i<=8;i++ ))
    do
       if [[ ${board[$i]} -eq $cellNum ]]
       then
-         board[$(($cellNum-1))]="X"
+         board[$(($cellNum-1))]=$symbol1
          count=$(($count+1))
       fi
    done
-player="computer"
+	player="computer"
+}
+
+function getComputerInput(){
+	echo "Computer"
+	cellNum=$(($(($RANDOM%9))+1))
+   for (( i=0;i<=8;i++ ))
+   do
+      if [[ ${board[$i]} -eq $cellNum ]]
+      then
+			board[$(($cellNum-1))]=$symbol2
+         count=$(($count+1))
+			player="user"
+			break
+      fi
+	player="computer"
+   done
 }
 
 function checkForRow(){
@@ -52,6 +70,10 @@ function checkForRow(){
       if [[ ${board[$i]} == "X"  && ${board[$(($i+1))]} == "X"  && ${board[$(($i+2))]} == "X" ]]
       then
          flag1=1
+         break
+		elif [[ ${board[$i]} == "O"  && ${board[$(($i+1))]} == "O"  && ${board[$(($i+2))]} == "O" ]]
+      then
+         flag1=2
          break
 		fi
 	done
@@ -66,6 +88,10 @@ function checkForColumn(){
       then
 			flag2=1
 			break
+	   elif [[ ${board[$i]} == "O"  && ${board[$(($i+3))]} == "O"  && ${board[$(($i+6))]} == "O" ]]
+      then
+         flag2=2
+         break
 		fi
    done
    echo $flag2
@@ -80,24 +106,61 @@ function checkForDiagonal(){
 	elif [[  ${board[$i+2]} == "X"  && ${board[$(($i+4))]} == "X"  && ${board[$(($i+6))]} == "X" ]]
    then	
 		flag3=1
+	elif [[ ${board[$i]} == "O"  && ${board[$(($i+4))]} == "O"  && ${board[$(($i+8))]} == "O" ]]
+   then
+      flag3=2
+   elif [[  ${board[$i+2]} == "O"  && ${board[$(($i+4))]} == "O"  && ${board[$(($i+6))]} == "O" ]]
+   then  
+      flag3=2
 	fi
+
 	echo $flag3
 }
 
+function checkForWin(){
+	win=0
+   rowValue=$(checkForRow)
+   columnValue=$(checkForColumn)
+   diagonalValue=$(checkForDiagonal)
+   if [[ $rowValue -eq 1 || $columnValue -eq 1 || $diagonalValue -eq 1 ]]
+   then
+		win=1
+   elif [[ $rowValue -eq 2 || $columnValue -eq 2 || $diagonalValue -eq 2 ]]
+   then
+		win=2
+   fi
+	echo $win
+}
+
 function getInput(){
+	check=0
 	while [[ $count -ne 9 ]]
 	do
-		getUserInput
+		if [[ $player == "user" ]]
+      then
+			if [[ $count -eq 0 ]]
+			then
+				symbol1="X"
+			fi
+			getUserInput
+      else
+			if [[ $count -eq 0 ]]
+			then
+				symbol2="X"
+			fi
+         getComputerInput
+      fi
 		getBoardPrint
-		rowValue=$(checkForRow)
-		columnValue=$(checkForColumn)
-		diagonalValue=$(checkForDiagonal)
-		if [[ $rowValue -eq 1 || $columnValue -eq 1 || $diagonalValue -eq 1 ]]
+		check=$(checkForWin)
+		if [ $check -eq 1 ]
 		then
 			echo "X Symbol User Win!!!"
 			break
+		elif [ $check -eq 2 ]
+		then
+			echo "O Symbol User Win!!!"
+			break
 		fi
 	done
-
 }
 getInput
