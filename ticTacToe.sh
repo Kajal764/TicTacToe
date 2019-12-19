@@ -33,6 +33,83 @@ function getBoardPrint(){
 }
 getBoardPrint
 
+function getCellInput(){
+	temp=0
+	for(( i=0;i<9;i++ ))
+	do
+		#blockcondition For row
+		if [[ ${board[$i]} == $symbol1  && ${board[(($i+1))]} == $symbol1 ]]
+		then
+			temp=1
+			echo ${board[(($i+2))]}
+			break
+		elif [[ ${board[(($i+1))]} == $symbol1  && ${board[(($i+2))]} == $symbol1 ]]
+		then
+			temp=1
+			echo ${board[$i]}
+			break
+		elif [[ ${board[$i]} == $symbol1  && ${board[(($i+2))]} == $symbol1 ]]
+		then
+			temp=1
+			echo ${board[(($i+1))]}
+			break
+
+		#blockCondition for column
+		elif [[ ${board[$i]} == $symbol1  && ${board[(($i+3))]} == $symbol1 ]]
+		then
+			temp=1
+			echo ${board[(($i+6))]}
+			break
+		elif [[ ${board[(($i+3))]} == $symbol1  && ${board[(($i+6))]} == $symbol1 ]]
+		then
+			temp=1
+			echo ${board[$i]}
+			break
+		elif [[ ${board[$i]} == $symbol1  && ${board[(($i+6))]} == $symbol1 ]]
+		then
+         temp=1
+			echo ${board[(($i+3))]}
+			break
+		#blockCondition for diagonal
+		elif [[ $i -eq 0 && ${board[$i]} == $symbol1  && ${board[$(($i+4))]} == $symbol1 ]]
+   	then
+      	temp=1
+      	echo ${board[$(($i+8))]}
+			break
+   	elif [[ $i -eq 0 && ${board[$(($i+4))]} == $symbol1  && ${board[$(($i+8))]} == $symbol1 ]]
+   	then
+      	temp=1
+      	echo ${board[$i]}
+			break 
+   	elif [[ $i -eq 0 && ${board[$i]} == $symbol1  && ${board[$(($i+8))]} == $symbol1 ]]
+   	then
+      	temp=1
+      	echo ${board[$(($i+4))]}
+			break 
+   	elif [[ $i -eq 0 && ${board[$i+2]} == $symbol1 && ${board[$(($i+4))]} == $symbol1 ]]
+   	then  
+      	temp=1
+      	echo ${board[$(($i+6))]}
+			break
+   	elif [[ $i -eq 0 && ${board[$i+4]} == $symbol1  && ${board[$(($i+6))]} == $symbol1 ]]
+   	then  
+      	temp=1
+      	echo ${board[$(($i+2))]}
+			break
+   	elif [[ $i -eq 0 && ${board[$i+2]} == $symbol1  && ${board[$(($i+6))]} == $symbol1 ]]
+   	then  
+      	temp=1
+      	echo ${board[$(($i+4))]}
+			break
+   	fi
+	done
+	if [ $temp -eq 0 ]
+	then		randomValue=$((RANDOM%9+1))
+  		echo $randomValue
+	fi
+}
+
+
 function getUserInput(){
 	echo "User"
 	read -p "Enter Cell Number  " cellNum 
@@ -49,15 +126,15 @@ function getUserInput(){
 
 function getComputerInput(){
 	echo "Computer"
-	cellNum=$(($(($RANDOM%9))+1))
+	cellNum=$(getCellInput)
    for (( i=0;i<=8;i++ ))
    do
       if [[ ${board[$i]} -eq $cellNum ]]
       then
-			board[$(($cellNum-1))]=$symbol2
-         count=$(($count+1))
-			player="user"
-			break
+		board[(($cellNum-1))]=$symbol2
+         	count=$(($count+1))
+		player="user"
+		break
       fi
 	player="computer"
    done
