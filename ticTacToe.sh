@@ -33,6 +33,29 @@ function getBoardPrint(){
 }
 getBoardPrint
 
+function checkForCorner(){
+	temp=0
+	for (( i=0;i<9;i++ ))
+	do
+		if [[ $i -ne 4 && ${board[$i]} != "X" && ${board[$i]} != "O" ]]
+		then
+			if [[ $((${board[$i]}%2)) -eq 1 ]]
+			then
+				temp=1
+				echo ${board[$i]}
+				break
+			fi
+		fi
+	done
+	if [[ $temp -eq 0 ]]
+	then
+		value=$((RANDOM%9+1))
+		echo $value
+	fi
+
+}
+
+
 function getCellInput(){
 	temp=0
 	for(( i=0;i<9;i++ ))
@@ -70,6 +93,7 @@ function getCellInput(){
          temp=1
 			echo ${board[(($i+3))]}
 			break
+
 		#blockCondition for diagonal
 		elif [[ $i -eq 0 && ${board[$i]} == $symbol1  && ${board[$(($i+4))]} == $symbol1 ]]
    	then
@@ -104,11 +128,11 @@ function getCellInput(){
    	fi
 	done
 	if [ $temp -eq 0 ]
-	then		randomValue=$((RANDOM%9+1))
-  		echo $randomValue
+	then		
+		cornerValue=$(checkForCorner)
+  		echo $cornerValue
 	fi
 }
-
 
 function getUserInput(){
 	echo "User"
@@ -132,7 +156,7 @@ function getComputerInput(){
       if [[ ${board[$i]} -eq $cellNum ]]
       then
 		board[(($cellNum-1))]=$symbol2
-         	count=$(($count+1))
+      count=$(($count+1))
 		player="user"
 		break
       fi
