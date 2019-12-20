@@ -281,3 +281,10 @@ function getInput(){
 	done
 }
 getInput
+function checkTieCondition(){
+	if [[ $count -eq 9 ]]
+	then
+		echo "Game Draw"
+	fi
+}
+checkTieCondition
