@@ -33,6 +33,22 @@ function getBoardPrint(){
 }
 getBoardPrint
 
+function checkForSides(){
+   temp=0
+    for (( i=0;i<9;i++ ))
+   do
+      if [[ ${board[$i]} != "X" && ${board[$i]} != "O" ]]
+      then
+         if [[ $((${board[$i]}%2)) -eq 0 ]]
+         then
+            temp=1
+            echo ${board[$i]}
+            break
+         fi
+      fi
+   done
+}
+
 function checkForCorner(){
 	temp=0
 	for (( i=0;i<9;i++ ))
@@ -49,7 +65,7 @@ function checkForCorner(){
 	done
 	if [[ $temp -eq 0 ]]
 	then
-		value=$((RANDOM%9+1))
+		value=$(checkForSides)
 		echo $value
 	fi
 
