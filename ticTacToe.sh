@@ -29,23 +29,22 @@ function getBoardPrint(){
 	echo " |_${board[0]}__""|""_${board[1]}__""|""_${board[2]}__""|"
 	echo " |_${board[3]}__""|""_${board[4]}__""|""_${board[5]}__""|"
 	echo " |_${board[6]}__""|""_${board[7]}__""|""_${board[8]}__""|"
-	
-}
+	}
 getBoardPrint
 
 function checkForSides(){
-   temp=0
-   for (( i=0;i<9;i++ ))
-	do
-     if [[ ${board[$i]} != "X" && ${board[$i]} != "O" ]]
-     then
-        if [[ $((${board[$i]}%2)) -eq 0 ]]
-        then
-           temp=1
-           echo ${board[$i]}
-           break
-        fi
-     fi
+   	temp=0
+   	for (( i=0;i<9;i++ ))
+   	do
+   		if [[ ${board[$i]} != "X" && ${board[$i]} != "O" ]]
+    		then
+        		if [[ $((${board[$i]}%2)) -eq 0 ]]
+        		then
+           			temp=1
+           			echo ${board[$i]}
+           			break
+        		fi
+     		fi
 	done
 }
 
@@ -74,40 +73,39 @@ function checkOpponentDiagonal(){
       #blockCondition for diagonal
    temp=0
    i=0
-   if [[ ${board[$i]} == ${board[$(($i+4))]} &&  ${board[$(($i+8))]} != $symbol1 &&  ${board[$(($i+8))]} != $symbol ]]
+   	if [[ ${board[$i]} == ${board[$(($i+4))]} &&  ${board[$(($i+8))]} != $symbol1 &&  ${board[$(($i+8))]} != $symbol ]]
 	then
-   	temp=1
-      cellValue=${board[$(($i+8))]}
+   		temp=1
+      		cellValue=${board[$(($i+8))]}
 	elif [[ ${board[$(($i+4))]} == ${board[$(($i+8))]} && ${board[$i]} != $symbol1 &&  ${board[$i]} != $symbol2 ]]
-   then
-   	temp=1
-      cellValue=${board[$i]}
-   elif [[ ${board[$i]} == ${board[$(($i+8))]} && ${board[$(($i+4))]} != $symbol1 && ${board[$(($i+4))]} != $symbol2 ]]
-   then
-   	temp=1
-      cellValue=${board[$(($i+4))]}
-   elif [[ ${board[$i+2]} == ${board[$(($i+4))]} && ${board[$(($i+6))]} != $symbol1 && ${board[$(($i+6))]} != $symbol2 ]]
-   then  
-   	temp=1
-      cellValue=${board[$(($i+6))]}
-   elif [[ ${board[$i+4]} == ${board[$(($i+6))]} && ${board[$(($i+2))]} != $symbol1 && ${board[$(($i+2))]} != $symbol2 ]]
-   then  
-   	temp=1
-      cellValue=${board[$(($i+2))]}
+   	then
+   		temp=1
+      		cellValue=${board[$i]}
+   	elif [[ ${board[$i]} == ${board[$(($i+8))]} && ${board[$(($i+4))]} != $symbol1 && ${board[$(($i+4))]} != $symbol2 ]]
+   	then
+   		temp=1
+      		cellValue=${board[$(($i+4))]}
+   	elif [[ ${board[$i+2]} == ${board[$(($i+4))]} && ${board[$(($i+6))]} != $symbol1 && ${board[$(($i+6))]} != $symbol2 ]]
+   	then  
+   		temp=1
+      		cellValue=${board[$(($i+6))]}
+   	elif [[ ${board[$i+4]} == ${board[$(($i+6))]} && ${board[$(($i+2))]} != $symbol1 && ${board[$(($i+2))]} != $symbol2 ]]
+   	then  
+   		temp=1
+      		cellValue=${board[$(($i+2))]}
 	elif [[ ${board[$i+2]} == ${board[$(($i+6))]} && ${board[$(($i+4))]} != $symbol1 && ${board[$(($i+4))]} != $symbol2 ]]
-   then  
-   	temp=1
-      cellValue=${board[$(($i+4))]}
-     fi
+   	then  
+   		temp=1
+      		cellValue=${board[$(($i+4))]}
+     	fi
    
-   if [ $temp -eq 0 ]
-   then
-      cornerValue=$(checkForCorner)
-      echo $cornerValue
-	else
+if [ $temp -eq 0 ]
+then
+	cornerValue=$(checkForCorner)
+      	echo $cornerValue
+else
       echo $cellValue
-   fi
-
+fi
 }
 
 function checkOpponentColumn(){ 
@@ -115,23 +113,23 @@ function checkOpponentColumn(){
    temp=0
    for(( i=0;i<=2;i++ ))
    do
-      if [[ ${board[$i]} == ${board[$(($i+3))]} && ${board[$(($i+6))]} != $symbol1 && ${board[$(($i+6))]} != $symbol2 ]]
-      then
-         temp=1
-         cellValue=${board[$(($i+6))]}
-         break
-      elif [[ ${board[(($i+3))]} == ${board[(($i+6))]} && ${board[$i]} != $symbol1 && ${board[$i]} != $symbol2 ]]
-      then
-         temp=1
-         cellValue=${board[$i]}
-         break
-      elif [[ ${board[$i]} == ${board[(($i+6))]} && ${board[(($i+3))]} != $symbol1 && ${board[(($i+3))]} != $symbol2 ]]
-      then
-         temp=1
-         cellValue=${board[(($i+3))]}
-         break
-      fi
-	done
+   	if [[ ${board[$i]} == ${board[$(($i+3))]} && ${board[$(($i+6))]} != $symbol1 && ${board[$(($i+6))]} != $symbol2 ]]
+      	then
+        	temp=1
+         	cellValue=${board[$(($i+6))]}
+         	break
+      	elif [[ ${board[(($i+3))]} == ${board[(($i+6))]} && ${board[$i]} != $symbol1 && ${board[$i]} != $symbol2 ]]
+      	then
+        	temp=1
+         	cellValue=${board[$i]}
+         	break
+      	elif [[ ${board[$i]} == ${board[(($i+6))]} && ${board[(($i+3))]} != $symbol1 && ${board[(($i+3))]} != $symbol2 ]]
+      	then
+        	temp=1
+         	cellValue=${board[(($i+3))]}
+         	break
+      	fi
+done
    if [ $temp -eq 0 ]
    then
       Value=$(checkOpponentDiagonal)
@@ -162,16 +160,15 @@ function checkOpponentRow(){
 			temp=1
 			cellValue=${board[(($i+1))]}
 			break
-	fi
+		fi
 	done
 	if [ $temp -eq 0 ]
-   then
-      Value=$(checkOpponentColumn)
-      echo $Value
+   	then
+      		Value=$(checkOpponentColumn)
+      		echo $Value
 	else
-      echo $cellValue
-   fi
-
+      		echo $cellValue
+   	fi
 }
 
 
@@ -179,44 +176,44 @@ function getUserInput(){
 	echo "User"
 	read -p "Enter Cell Number  " cellNum 
 	for (( i=0;i<=8;i++ ))
-   do
-      if [[ ${board[$i]} -eq $cellNum ]]
-      then
-         board[$(($cellNum-1))]=$symbol1
-         count=$(($count+1))
-      fi
-   done
+   	do
+      		if [[ ${board[$i]} -eq $cellNum ]]
+      		then
+         		board[$(($cellNum-1))]=$symbol1
+         		count=$(($count+1))
+      		fi
+   	done
 	player="computer"
 }
 
 function getComputerInput(){
 	echo "Computer"
 	cellNum=$(checkOpponentRow)
-   for (( i=0;i<=8;i++ ))
-   do
-      if [[ ${board[$i]} -eq $cellNum ]]
-     	then
+   	for (( i=0;i<=8;i++ ))
+   	do
+      		if [[ ${board[$i]} -eq $cellNum ]]
+     		then
 			board[(($cellNum-1))]=$symbol2
-      	count=$(($count+1))
+      			count=$(($count+1))
 			player="user"
 			break
-      fi
+      		fi
 	player="computer"
-   done
+   	done
 }
 
 function checkForRow(){
 	flag1=0
 	for((i=0;i<=8;i=$(($i+3)) ))
-   do
-      if [[ ${board[$i]} == "X"  && ${board[$(($i+1))]} == "X"  && ${board[$(($i+2))]} == "X" ]]
-      then
-        	flag1=1
-         break
+   	do
+      		if [[ ${board[$i]} == "X"  && ${board[$(($i+1))]} == "X"  && ${board[$(($i+2))]} == "X" ]]
+      		then
+        		flag1=1
+         		break
 		elif [[ ${board[$i]} == "O"  && ${board[$(($i+1))]} == "O"  && ${board[$(($i+2))]} == "O" ]]
-      then
-        	flag1=2
-         break
+      		then
+        		flag1=2
+         		break
 		fi
 	done
 	echo $flag1
@@ -225,7 +222,7 @@ function checkForRow(){
 function checkForColumn(){
 	flag2=0
 	for(( i=0;i<=2;i++ ))
-   do
+   	do
 		if [[ ${board[$i]} == "X"  && ${board[$(($i+3))]} == "X"  && ${board[$(($i+6))]} == "X" ]]
       		then
 			flag2=1
